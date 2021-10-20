@@ -48,3 +48,27 @@ jobs:
           push: true
           tags: ${{ steps.meta.outputs.tags }}
           labels: ${{ steps.meta.outputs.labels }}
+  test:
+    runs-on: ubuntu-latest
+    steps:
+      - 
+        name: Checkout
+        uses: actions/checkout@v2
+        with:
+          fetch-depth: 0
+      -
+        name: Docker Meta
+        id: meta
+        uses: docker/metadata-action@v3
+        with:
+          images: ${{ secrets.DOCKERHUB_REPOSITORY }}/MCProd
+          tags: |
+            type=sha
+      - name: Dijet Events
+        if: steps.cache-sim.outputs.cache-hit != 'true'
+        run: |
+          
+          docker run -v ${PWD}:/var/myrun -w /var/myrun ${{ secrets.DOCKERHUB_REPOSITORY }}/mcprod:main /bin/bash -c "
+            pwd
+            ./example.sh
+          "
