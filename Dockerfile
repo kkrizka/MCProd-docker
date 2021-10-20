@@ -29,7 +29,7 @@ RUN wget https://pythia.org/download/pythia83/pythia8306.tgz && \
     tar -xzf pythia8306.tgz && \
     rm pythia8306.tgz && \
     pushd pythia8306 && \
-    ./configure --with-hepmc2 --prefix=/opt/pythia/8.306 && \
+    ./configure --with-hepmc2 --with-gzip --prefix=/opt/pythia/8.306 && \
     make && make install && \
     popd && rm -rf pythia8306
 
@@ -37,7 +37,7 @@ RUN wget https://pythia.org/download/pythia82/pythia8245.tgz && \
     tar -xzf pythia8245.tgz && \
     rm pythia8245.tgz && \
     pushd pythia8245 && \
-    ./configure --with-hepmc2 --prefix=/opt/pythia/8.245 && \
+    ./configure --with-hepmc2 --with-gzip --prefix=/opt/pythia/8.245 && \
     make && make install && \
     popd && rm -rf pythia8245
 
