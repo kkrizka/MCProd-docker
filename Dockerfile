@@ -5,7 +5,8 @@ RUN yum -y install yum-utils && \
     yum-config-manager --set-enabled powertools && \
     yum -y install epel-release wget cmake libarchive rsync && \
     yum -y install python38 python38-six && \
-    yum -y groupinstall "Development Tools"
+    yum -y groupinstall "Development Tools" && \
+    yum -y install gcc-gfortran
 
 # Install random HEP tools
 RUN yum -y install HepMC-devel
@@ -45,6 +46,8 @@ RUN wget http://madgraph.physics.illinois.edu/Downloads/MG5aMC_PY8_interface/MG5
     pushd MG5aMC_PY8_interface_V1.2 && \
     python3.8 compile.py /opt/pythia/8.245/ --pythia8_makefile && \
     install MG5aMC_PY8_interface /opt/pythia/8.245 && \
+    install MG5AMC_VERSION_ON_INSTALL /opt/pythia/8.245 && \
+    install PYTHIA8_VERSION_ON_INSTALL /opt/pythia/8.245 && \
     popd && rm -rf MG5aMC_PY8_interface_V1.2
 
 # Install ExRootAnalysis
@@ -69,3 +72,7 @@ RUN git clone https://github.com/delphes/delphes.git && \
     popd && rm -rf delphes
 
 # Configure MG5@NLO to use external paths
+RUN sed -i -e 's|[# ]*mg5amc_py8_interface_path\s*=\s*.*|mg5amc_py8_interface_path = /opt/pythia/8.245|' /opt/MG5aMC/3.2.0/input/mg5_configuration.txt && \
+    sed -i -e 's|[# ]*pythia8_path\s*=\s*.*|pythia8_path = /opt/pythia/8.245|' /opt/MG5aMC/3.2.0/input/mg5_configuration.txt && \
+    sed -i -e 's|[# ]*exrootanalysis_path\s*=\s*.*|exrootanalysis_path = /opt/ExRootAnalysis/1.1.5/bin|' /opt/MG5aMC/3.2.0/input/mg5_configuration.txt && \
+    sed -i -e 's|[# ]*delphes_path\s*=\s*.*|delphes_path = /opt/delphes/3.5.0/bin|' /opt/MG5aMC/3.2.0/input/mg5_configuration.txt
