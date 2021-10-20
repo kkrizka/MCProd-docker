@@ -19,6 +19,9 @@ RUN wget https://launchpad.net/mg5amcnlo/3.0/3.2.x/+download/MG5_aMC_v3.2.0.tar.
     tar -xf MG5_aMC_v3.2.0.tar.gz && \
     rm MG5_aMC_v3.2.0.tar.gz && \
     mkdir -p /opt/MG5aMC && \
+    pushd MG5_aMC_v3_2_0 && \
+    rsync -ar Template/LO/Source/.make_opts Template/LO/Source/make_opts && \
+    pushd && \
     mv MG5_aMC_v3_2_0 /opt/MG5aMC/3.2.0
 
 # Install Pythia 8
