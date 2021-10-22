@@ -5,11 +5,13 @@ RUN yum -y install yum-utils && \
     yum-config-manager --set-enabled powertools && \
     yum -y install epel-release wget cmake libarchive rsync && \
     yum -y install python38 python38-six && \
+    alternatives --set python /usr/bin/python3.8 && \
+    alternatives --set python3 /usr/bin/python3.8 && \
     yum -y groupinstall "Development Tools" && \
     yum -y install gcc-gfortran
 
 # Install random HEP tools
-RUN yum -y install HepMC-devel
+RUN yum -y install HepMC-devel lhapdf-devel gnuplot
 
 # Install ROOT
 RUN yum -y install root root-montecarlo-eg root-graf3d-eve root-gui-html root-genvector

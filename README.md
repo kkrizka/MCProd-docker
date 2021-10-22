@@ -15,11 +15,11 @@ docker build .
 
 ## Example MG5@NLO with Docker
 ```
-docker run -it kkrizka/mcprod:main python3.8 /opt/MG5aMC/3.2.0/bin/mg5_aMC
+docker run -it kkrizka/mcprod:main /opt/MG5aMC/3.2.0/bin/mg5_aMC
 ```
 
 ## Example MG5@NLO with Singularity
 ```
-singularity exec docker://kkrizka/mcprod:main python3.8 /opt/MG5aMC/3.2.0/bin/mg5_aMC
+singularity exec docker://kkrizka/mcprod:main /opt/MG5aMC/3.2.0/bin/mg5_aMC
 ```
 
