@@ -4,7 +4,7 @@ FROM centos:8
 RUN yum -y install yum-utils && \
     yum-config-manager --set-enabled powertools && \
     yum -y install epel-release wget cmake libarchive rsync && \
-    yum -y install python38 python38-six && \
+    yum -y install python38 python38-six python38-numpy python38-numpy-f2py && \
     alternatives --set python /usr/bin/python3.8 && \
     alternatives --set python3 /usr/bin/python3.8 && \
     yum -y groupinstall "Development Tools" && \
