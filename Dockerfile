@@ -26,6 +26,15 @@ RUN wget https://launchpad.net/mg5amcnlo/3.0/3.2.x/+download/MG5_aMC_v3.2.0.tar.
     pushd && \
     mv MG5_aMC_v3_2_0 /opt/MG5aMC/3.2.0
 
+RUN wget https://launchpad.net/mg5amcnlo/3.0/3.3.x/+download/MG5_aMC_v3.3.0.tar.gz && \
+    tar -xf MG5_aMC_v3.3.0.tar.gz && \
+    rm MG5_aMC_v3.3.0.tar.gz && \
+    mkdir -p /opt/MG5aMC && \
+    pushd MG5_aMC_v3_3_0 && \
+    rsync -ar Template/LO/Source/.make_opts Template/LO/Source/make_opts && \
+    pushd && \
+    mv MG5_aMC_v3_3_0 /opt/MG5aMC/3.3.0
+
 # Install Pythia 8
 RUN wget https://pythia.org/download/pythia83/pythia8306.tgz && \
     tar -xzf pythia8306.tgz && \
@@ -55,6 +64,17 @@ RUN wget http://madgraph.physics.illinois.edu/Downloads/MG5aMC_PY8_interface/MG5
     install PYTHIA8_VERSION_ON_INSTALL /opt/pythia/8.245 && \
     popd && rm -rf MG5aMC_PY8_interface_V1.2
 
+RUN wget http://madgraph.physics.illinois.edu/Downloads/MG5aMC_PY8_interface/MG5aMC_PY8_interface_V1.3.tar.gz && \
+    mkdir MG5aMC_PY8_interface_V1.3 && \
+    tar -xf MG5aMC_PY8_interface_V1.3.tar.gz -C MG5aMC_PY8_interface_V1.3 && \
+    rm MG5aMC_PY8_interface_V1.3.tar.gz && \
+    pushd MG5aMC_PY8_interface_V1.3 && \
+    python3.8 compile.py /opt/pythia/8.306/ --pythia8_makefile && \
+    install MG5aMC_PY8_interface /opt/pythia/8.306 && \
+    install MG5AMC_VERSION_ON_INSTALL /opt/pythia/8.306 && \
+    install PYTHIA8_VERSION_ON_INSTALL /opt/pythia/8.306 && \
+    popd && rm -rf MG5aMC_PY8_interface_V1.3
+
 # Install ExRootAnalysis
 RUN wget http://madgraph.phys.ucl.ac.be/Downloads/ExRootAnalysis/ExRootAnalysis_V1.1.5.tar.gz && \
     tar -xf ExRootAnalysis_V1.1.5.tar.gz && \
@@ -82,3 +102,9 @@ RUN sed -i -e 's|[# ]*f2py_compiler_py3\s*=\s*.*|f2py_compiler_py3 = /usr/bin/f2
     sed -i -e 's|[# ]*pythia8_path\s*=\s*.*|pythia8_path = /opt/pythia/8.245|' /opt/MG5aMC/3.2.0/input/mg5_configuration.txt && \
     sed -i -e 's|[# ]*exrootanalysis_path\s*=\s*.*|exrootanalysis_path = /opt/ExRootAnalysis/1.1.5/bin|' /opt/MG5aMC/3.2.0/input/mg5_configuration.txt && \
     sed -i -e 's|[# ]*delphes_path\s*=\s*.*|delphes_path = /opt/delphes/3.5.0/bin|' /opt/MG5aMC/3.2.0/input/mg5_configuration.txt
+
+RUN sed -i -e 's|[# ]*f2py_compiler_py3\s*=\s*.*|f2py_compiler_py3 = /usr/bin/f2py3|' /opt/MG5aMC/3.3.0/input/mg5_configuration.txt && \
+    sed -i -e 's|[# ]*mg5amc_py8_interface_path\s*=\s*.*|mg5amc_py8_interface_path = /opt/pythia/8.306|' /opt/MG5aMC/3.3.0/input/mg5_configuration.txt && \
+    sed -i -e 's|[# ]*pythia8_path\s*=\s*.*|pythia8_path = /opt/pythia/8.306|' /opt/MG5aMC/3.3.0/input/mg5_configuration.txt && \
+    sed -i -e 's|[# ]*exrootanalysis_path\s*=\s*.*|exrootanalysis_path = /opt/ExRootAnalysis/1.1.5/bin|' /opt/MG5aMC/3.3.0/input/mg5_configuration.txt && \
+    sed -i -e 's|[# ]*delphes_path\s*=\s*.*|delphes_path = /opt/delphes/3.5.0/bin|' /opt/MG5aMC/3.3.0/input/mg5_configuration.txt
