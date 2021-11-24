@@ -4,7 +4,7 @@ FROM centos:8
 RUN yum -y install yum-utils && \
     yum-config-manager --set-enabled powertools && \
     yum -y install epel-release wget cmake libarchive rsync && \
-    yum -y install python38 python38-six && \
+    yum -y install python38 python38-six python38-numpy python38-numpy-f2py && \
     alternatives --set python /usr/bin/python3.8 && \
     alternatives --set python3 /usr/bin/python3.8 && \
     yum -y groupinstall "Development Tools" && \
@@ -77,7 +77,8 @@ RUN git clone https://github.com/delphes/delphes.git && \
     popd && rm -rf delphes
 
 # Configure MG5@NLO to use external paths
-RUN sed -i -e 's|[# ]*mg5amc_py8_interface_path\s*=\s*.*|mg5amc_py8_interface_path = /opt/pythia/8.245|' /opt/MG5aMC/3.2.0/input/mg5_configuration.txt && \
+RUN sed -i -e 's|[# ]*f2py_compiler_py3\s*=\s*.*|f2py_compiler_py3 = /usr/bin/f2py3|' /opt/MG5aMC/3.2.0/input/mg5_configuration.txt && \
+    sed -i -e 's|[# ]*mg5amc_py8_interface_path\s*=\s*.*|mg5amc_py8_interface_path = /opt/pythia/8.245|' /opt/MG5aMC/3.2.0/input/mg5_configuration.txt && \
     sed -i -e 's|[# ]*pythia8_path\s*=\s*.*|pythia8_path = /opt/pythia/8.245|' /opt/MG5aMC/3.2.0/input/mg5_configuration.txt && \
     sed -i -e 's|[# ]*exrootanalysis_path\s*=\s*.*|exrootanalysis_path = /opt/ExRootAnalysis/1.1.5/bin|' /opt/MG5aMC/3.2.0/input/mg5_configuration.txt && \
     sed -i -e 's|[# ]*delphes_path\s*=\s*.*|delphes_path = /opt/delphes/3.5.0/bin|' /opt/MG5aMC/3.2.0/input/mg5_configuration.txt
