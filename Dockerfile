@@ -11,7 +11,7 @@ RUN yum -y install yum-utils && \
     yum -y install gcc-gfortran
 
 # Install random HEP tools
-RUN yum -y install HepMC-devel  gnuplot
+RUN yum -y install HepMC-devel gnuplot
 
 # Install ROOT
 RUN yum -y install root root-montecarlo-eg root-graf3d-eve root-gui-html root-genvector
@@ -21,15 +21,14 @@ RUN wget -O LHAPDF-6.4.0.tar.gz https://lhapdf.hepforge.org/downloads/?f=LHAPDF-
     tar -xvzf LHAPDF-6.4.0.tar.gz && \
     rm LHAPDF-6.4.0.tar.gz && \
     pushd LHAPDF-6.4.0 && \
-    ./configure --prefix=/opt/LHAPDF/6.4.0 && \
+    ./configure --prefix=/usr && \
     make && \
     make install &&\
     popd && rm -rf LHAPDF-6.4.0 && \
-    DATADIR=$(/opt/LHAPDF/6.4.0/bin/lhapdf-config --datadir) && \
-    wget http://lhapdfsets.web.cern.ch/lhapdfsets/current/CT10nlo.tar.gz -O- | tar xz -C ${DATADIR} && \
-    wget http://lhapdfsets.web.cern.ch/lhapdfsets/current/NNPDF30_nlo_as_0118.tar.gz -O- | tar xz -C ${DATADIR} && \
-    wget http://lhapdfsets.web.cern.ch/lhapdfsets/current/NNPDF30_nnlo_as_0118.tar.gz -O- | tar xz -C ${DATADIR} && \
-    wget http://lhapdfsets.web.cern.ch/lhapdfsets/current/NNPDF23_nlo_as_0119.tar.gz -O- | tar xz -C ${DATADIR}
+    lhapdf install CT10nlo && \
+    lhapdf install NNPDF30_nlo_as_0118 && \
+    lhapdf install NNPDF30_nnlo_as_0118 && \
+    lhapdf install NNPDF23_nlo_as_0119
 
 # Install MadGraph
 RUN wget https://launchpad.net/mg5amcnlo/3.0/3.2.x/+download/MG5_aMC_v3.2.0.tar.gz && \
