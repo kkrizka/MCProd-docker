@@ -11,10 +11,25 @@ RUN yum -y install yum-utils && \
     yum -y install gcc-gfortran
 
 # Install random HEP tools
-RUN yum -y install HepMC-devel lhapdf-devel gnuplot
+RUN yum -y install HepMC-devel  gnuplot
 
 # Install ROOT
 RUN yum -y install root root-montecarlo-eg root-graf3d-eve root-gui-html root-genvector
+
+# Install LHAPDF
+RUN wget -O LHAPDF-6.4.0.tar.gz https://lhapdf.hepforge.org/downloads/?f=LHAPDF-6.4.0.tar.gz && \
+    tar -xvzf LHAPDF-6.4.0.tar.gz && \
+    rm LHAPDF-6.4.0.tar.gz && \
+    pushd LHAPDF-6.4.0 && \
+    ./configure --prefix=/opt/LHAPDF/6.4.0 && \
+    make && \
+    make install &&\
+    popd && rm -rf LHAPDF-6.4.0 && \
+    DATADIR=$(/opt/LHAPDF/6.4.0/bin/lhapdf-config --datadir) && \
+    wget http://lhapdfsets.web.cern.ch/lhapdfsets/current/CT10nlo.tar.gz -O- | tar xz -C ${DATADIR} && \
+    wget http://lhapdfsets.web.cern.ch/lhapdfsets/current/NNPDF30_nlo_as_0118.tar.gz -O- | tar xz -C ${DATADIR} && \
+    wget http://lhapdfsets.web.cern.ch/lhapdfsets/current/NNPDF30_nnlo_as_0118.tar.gz -O- | tar xz -C ${DATADIR} && \
+    wget http://lhapdfsets.web.cern.ch/lhapdfsets/current/NNPDF23_nlo_as_0119.tar.gz -O- | tar xz -C ${DATADIR}
 
 # Install MadGraph
 RUN wget https://launchpad.net/mg5amcnlo/3.0/3.2.x/+download/MG5_aMC_v3.2.0.tar.gz && \
@@ -36,14 +51,6 @@ RUN wget https://launchpad.net/mg5amcnlo/3.0/3.3.x/+download/MG5_aMC_v3.3.0.tar.
     mv MG5_aMC_v3_3_0 /opt/MG5aMC/3.3.0
 
 # Install Pythia 8
-RUN wget https://pythia.org/download/pythia83/pythia8306.tgz && \
-    tar -xzf pythia8306.tgz && \
-    rm pythia8306.tgz && \
-    pushd pythia8306 && \
-    ./configure --with-hepmc2 --with-gzip --prefix=/opt/pythia/8.306 && \
-    make && make install && \
-    popd && rm -rf pythia8306
-
 RUN wget https://pythia.org/download/pythia82/pythia8245.tgz && \
     tar -xzf pythia8245.tgz && \
     rm pythia8245.tgz && \
@@ -51,6 +58,14 @@ RUN wget https://pythia.org/download/pythia82/pythia8245.tgz && \
     ./configure --with-hepmc2 --with-gzip --prefix=/opt/pythia/8.245 && \
     make && make install && \
     popd && rm -rf pythia8245
+
+RUN wget https://pythia.org/download/pythia83/pythia8306.tgz && \
+    tar -xzf pythia8306.tgz && \
+    rm pythia8306.tgz && \
+    pushd pythia8306 && \
+    ./configure --with-hepmc2 --with-gzip --prefix=/opt/pythia/8.306 && \
+    make && make install && \
+    popd && rm -rf pythia8306
 
 # MG/Py8 interface (specific to Pythia version)
 RUN wget http://madgraph.physics.illinois.edu/Downloads/MG5aMC_PY8_interface/MG5aMC_PY8_interface_V1.2.tar.gz && \
