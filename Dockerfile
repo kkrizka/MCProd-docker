@@ -28,7 +28,8 @@ RUN wget -O LHAPDF-6.4.0.tar.gz https://lhapdf.hepforge.org/downloads/?f=LHAPDF-
     lhapdf install CT10nlo && \
     lhapdf install NNPDF30_nlo_as_0118 && \
     lhapdf install NNPDF30_nnlo_as_0118 && \
-    lhapdf install NNPDF23_nlo_as_0119
+    lhapdf install NNPDF23_nlo_as_0119 && \
+    lhapdf install NNPDF23_lo_as_0130_qed
 
 # Install MadGraph
 RUN wget https://launchpad.net/mg5amcnlo/3.0/3.2.x/+download/MG5_aMC_v3.2.0.tar.gz && \
