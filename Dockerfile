@@ -44,10 +44,10 @@ RUN wget https://launchpad.net/mg5amcnlo/3.0/3.3.x/+download/MG5_aMC_v3.3.1.tar.
     tar -xf MG5_aMC_v3.3.1.tar.gz && \
     rm MG5_aMC_v3.3.1.tar.gz && \
     mkdir -p /opt/MG5aMC && \
-    pushd MG5_aMC_v3_3_0 && \
+    pushd MG5_aMC_v3_3_1 && \
     rsync -ar Template/LO/Source/.make_opts Template/LO/Source/make_opts && \
     pushd && \
-    mv MG5_aMC_v3_3_0 /opt/MG5aMC/3.3.1
+    mv MG5_aMC_v3_3_1 /opt/MG5aMC/3.3.1
 
 # Install Pythia 8
 RUN wget https://pythia.org/download/pythia82/pythia8245.tgz && \
