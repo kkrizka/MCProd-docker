@@ -1,8 +1,14 @@
 #!/bin/bash
 
+
+# exit when any command fails
+set -e
+
+# work directory
 me=$(pwd)
 
-/opt/MG5aMC/3.3.0/bin/mg5_aMC < ${me}/Cards/dijet.proc
+# example code
+/opt/MG5aMC/3.3.1/bin/mg5_aMC < ${me}/Cards/dijet.proc
 ./PROC_dijet/bin/generate_events -f
 pushd PROC_dijet/Events/run_01
 /opt/pythia/8.306/MG5aMC_PY8_interface ${me}/Cards/shower.cmd
