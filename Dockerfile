@@ -40,14 +40,14 @@ RUN wget https://launchpad.net/mg5amcnlo/3.0/3.2.x/+download/MG5_aMC_v3.2.0.tar.
     pushd && \
     mv MG5_aMC_v3_2_0 /opt/MG5aMC/3.2.0
 
-RUN wget https://launchpad.net/mg5amcnlo/3.0/3.3.x/+download/MG5_aMC_v3.3.0.tar.gz && \
-    tar -xf MG5_aMC_v3.3.0.tar.gz && \
-    rm MG5_aMC_v3.3.0.tar.gz && \
+RUN wget https://launchpad.net/mg5amcnlo/3.0/3.3.x/+download/MG5_aMC_v3.3.1.tar.gz && \
+    tar -xf MG5_aMC_v3.3.1.tar.gz && \
+    rm MG5_aMC_v3.3.1.tar.gz && \
     mkdir -p /opt/MG5aMC && \
-    pushd MG5_aMC_v3_3_0 && \
+    pushd MG5_aMC_v3_3_1 && \
     rsync -ar Template/LO/Source/.make_opts Template/LO/Source/make_opts && \
     pushd && \
-    mv MG5_aMC_v3_3_0 /opt/MG5aMC/3.3.0
+    mv MG5_aMC_v3_3_1 /opt/MG5aMC/3.3.1
 
 # Install Pythia 8
 RUN wget https://pythia.org/download/pythia82/pythia8245.tgz && \
@@ -117,8 +117,8 @@ RUN sed -i -e 's|[# ]*f2py_compiler_py3\s*=\s*.*|f2py_compiler_py3 = /usr/bin/f2
     sed -i -e 's|[# ]*exrootanalysis_path\s*=\s*.*|exrootanalysis_path = /opt/ExRootAnalysis/1.1.5/bin|' /opt/MG5aMC/3.2.0/input/mg5_configuration.txt && \
     sed -i -e 's|[# ]*delphes_path\s*=\s*.*|delphes_path = /opt/delphes/3.5.0/bin|' /opt/MG5aMC/3.2.0/input/mg5_configuration.txt
 
-RUN sed -i -e 's|[# ]*f2py_compiler_py3\s*=\s*.*|f2py_compiler_py3 = /usr/bin/f2py3|' /opt/MG5aMC/3.3.0/input/mg5_configuration.txt && \
-    sed -i -e 's|[# ]*mg5amc_py8_interface_path\s*=\s*.*|mg5amc_py8_interface_path = /opt/pythia/8.306|' /opt/MG5aMC/3.3.0/input/mg5_configuration.txt && \
-    sed -i -e 's|[# ]*pythia8_path\s*=\s*.*|pythia8_path = /opt/pythia/8.306|' /opt/MG5aMC/3.3.0/input/mg5_configuration.txt && \
-    sed -i -e 's|[# ]*exrootanalysis_path\s*=\s*.*|exrootanalysis_path = /opt/ExRootAnalysis/1.1.5/bin|' /opt/MG5aMC/3.3.0/input/mg5_configuration.txt && \
-    sed -i -e 's|[# ]*delphes_path\s*=\s*.*|delphes_path = /opt/delphes/3.5.0/bin|' /opt/MG5aMC/3.3.0/input/mg5_configuration.txt
+RUN sed -i -e 's|[# ]*f2py_compiler_py3\s*=\s*.*|f2py_compiler_py3 = /usr/bin/f2py3|' /opt/MG5aMC/3.3.1/input/mg5_configuration.txt && \
+    sed -i -e 's|[# ]*mg5amc_py8_interface_path\s*=\s*.*|mg5amc_py8_interface_path = /opt/pythia/8.306|' /opt/MG5aMC/3.3.1/input/mg5_configuration.txt && \
+    sed -i -e 's|[# ]*pythia8_path\s*=\s*.*|pythia8_path = /opt/pythia/8.306|' /opt/MG5aMC/3.3.1/input/mg5_configuration.txt && \
+    sed -i -e 's|[# ]*exrootanalysis_path\s*=\s*.*|exrootanalysis_path = /opt/ExRootAnalysis/1.1.5/bin|' /opt/MG5aMC/3.3.1/input/mg5_configuration.txt && \
+    sed -i -e 's|[# ]*delphes_path\s*=\s*.*|delphes_path = /opt/delphes/3.5.0/bin|' /opt/MG5aMC/3.3.1/input/mg5_configuration.txt
