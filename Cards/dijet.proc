@@ -1,2 +1,6 @@
 generate p p > j j
 output PROC_dijet
+launch
+done
+set gridpack = .true.
+done
