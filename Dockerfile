@@ -50,6 +50,10 @@ RUN wget https://launchpad.net/mg5amcnlo/3.0/3.3.x/+download/MG5_aMC_v3.3.1.tar.
     pushd && \
     mv MG5_aMC_v3_3_1 /opt/MG5aMC/3.3.1
 
+# Install MadGraph models
+ADD installModel.sh .
+RUN ./installModel.sh http://madgraph.phys.ucl.ac.be/Downloads/models/heft.tgz
+
 # Install Pythia 8
 RUN wget https://pythia.org/download/pythia82/pythia8245.tgz && \
     tar -xzf pythia8245.tgz && \
