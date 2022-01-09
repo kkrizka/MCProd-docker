@@ -115,6 +115,12 @@ ADD installDelphes.sh .
 RUN source /etc/profile.d/root.sh && \
     ./installDelphes.sh 3.5.0
 
+# Install Rivet
+ADD installRivet.sh .
+ADD setupRivet.sh /opt/rivet/
+RUN ./installRivet.sh 3.1.5 && \
+    echo "source /opt/rivet/setupRivet.sh 3.1.5" >> /etc/profile.d/rivet.sh
+
 # Configure MG5@NLO to use external paths
 RUN sed -i -e 's|[# ]*f2py_compiler_py3\s*=\s*.*|f2py_compiler_py3 = /usr/bin/f2py3|' /opt/MG5aMC/3.2.0/input/mg5_configuration.txt && \
     sed -i -e 's|[# ]*mg5amc_py8_interface_path\s*=\s*.*|mg5amc_py8_interface_path = /opt/pythia/8.245|' /opt/MG5aMC/3.2.0/input/mg5_configuration.txt && \
