@@ -14,17 +14,19 @@ RUN yum -y install yum-utils && \
 RUN yum -y install HepMC-devel gnuplot
 
 # Install ROOT
-RUN yum -y install root root-montecarlo-eg root-graf3d-eve root-gui-html root-genvector
+ADD installROOT.sh .
+ADD setupROOT.sh /opt/ROOT/
+RUN yum -y install git libX11-devel libXpm-devel libXft-devel libXext-devel openssl-devel && \
+    yum -y install mesa-libGL-devel mesa-libGLU-devel glew-devel && \
+    ./installROOT.sh v6-24-06 && \
+    echo "source /opt/ROOT/setupROOT.sh v6-24-06" >> /etc/profile.d/root.sh
 
 # Install LHAPDF
-RUN wget -O LHAPDF-6.4.0.tar.gz https://lhapdf.hepforge.org/downloads/?f=LHAPDF-6.4.0.tar.gz && \
-    tar -xvzf LHAPDF-6.4.0.tar.gz && \
-    rm LHAPDF-6.4.0.tar.gz && \
-    pushd LHAPDF-6.4.0 && \
-    ./configure --prefix=/usr && \
-    make && \
-    make install &&\
-    popd && rm -rf LHAPDF-6.4.0 && \
+ADD installLHAPDF.sh .
+ADD setupLHAPDF.sh /opt/LHAPDF/
+RUN ./installLHAPDF.sh 6.4.0 && \
+    echo "source /opt/LHAPDF/setupLHAPDF.sh 6.4.0" >> /etc/profile.d/lhapdf.sh && \
+    source /etc/profile.d/lhapdf.sh && \
     lhapdf install CT10nlo && \
     lhapdf install NNPDF23_lo_as_0130_qed && \
     lhapdf install NNPDF23_nlo_as_0119 && \
@@ -96,7 +98,8 @@ RUN wget http://madgraph.physics.illinois.edu/Downloads/MG5aMC_PY8_interface/MG5
     popd && rm -rf MG5aMC_PY8_interface_V1.3
 
 # Install ExRootAnalysis
-RUN wget http://madgraph.phys.ucl.ac.be/Downloads/ExRootAnalysis/ExRootAnalysis_V1.1.5.tar.gz && \
+RUN source /etc/profile.d/root.sh && \
+    wget http://madgraph.phys.ucl.ac.be/Downloads/ExRootAnalysis/ExRootAnalysis_V1.1.5.tar.gz && \
     tar -xf ExRootAnalysis_V1.1.5.tar.gz && \
     rm ExRootAnalysis_V1.1.5.tar.gz && \
     pushd ExRootAnalysis && \
@@ -108,13 +111,9 @@ RUN wget http://madgraph.phys.ucl.ac.be/Downloads/ExRootAnalysis/ExRootAnalysis_
     popd && rm -rf ExRootAnalysis
 
 # Install Delphes
-RUN git clone https://github.com/delphes/delphes.git && \
-    pushd delphes && \
-    git checkout -b 3.5.0 3.5.0 && \
-    cmake -S. -Bbuild -DCMAKE_INSTALL_PREFIX=/opt/delphes/3.5.0 && \
-    cmake --build build && \
-    cmake --install build && \
-    popd && rm -rf delphes
+ADD installDelphes.sh .
+RUN source /etc/profile.d/root.sh && \
+    ./installDelphes.sh 3.5.0
 
 # Configure MG5@NLO to use external paths
 RUN sed -i -e 's|[# ]*f2py_compiler_py3\s*=\s*.*|f2py_compiler_py3 = /usr/bin/f2py3|' /opt/MG5aMC/3.2.0/input/mg5_configuration.txt && \
