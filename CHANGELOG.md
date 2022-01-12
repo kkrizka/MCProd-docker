@@ -2,7 +2,9 @@
 	- Add MG5aMG 3.3.1
 	- Add Pythia8.306
 	- Add MG5aMC_PY8_interface 1.3 (For Py8.306)
-	- Install LHDAPDF library with Python 3.8 bindings
+	- Add Rivet 3.1.5
+	- Install ROOT 6.24/06 with Python 3.8 bindings
+	- Install LHDAPDF 6.4.0 library with Python 3.8 bindings
 	- Install python38-numpy and python38-numpy-f2py for reweight module
 	- Download heft model
 
